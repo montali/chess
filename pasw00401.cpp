@@ -100,14 +100,14 @@ int main() {
     Mcoord current, move; // Queste due variabili le usiamo per andare a stampare le coordinate scacchistiche nel file
     Ccoord convertedCurrent, convertedMove; // Vedi sopra
     bool madeMove = false; // Questo boolean ci servirà per il "no move" nel file
-    for (int i = 0; i < 8; i++) {
+    for (int i = 7; i >= 0; i--) {
         for (int c = 0; c < 8; c++) {
             madeMove = false;
             current.riga = i;
             current.col = c;
             convertedCurrent = converti(current);
             if (chess[i][c].colore == white) { //Cominciamo coi pezzi bianchi, dall'alto verso il basso
-                output << pezzi[chess[i][c].pezzo] << " - " << colori[chess[i][c].colore] << " - " << convertedCurrent.riga << convertedCurrent.col << endl;
+                output << pezzi[chess[i][c].pezzo] << " - " << colori[chess[i][c].colore] << " - " << convertedCurrent.col << convertedCurrent.riga << endl;
                 switch (chess[i][c].pezzo) {
                 case noPiece: // Chiaramente se non c'è nulla, non facciamo nulla
                 case pawn: // Per il pawn, verifichiamo i tre casi: in caso possa mangiare in diagonale, ed in caso si muova e basta
@@ -116,7 +116,7 @@ int main() {
                         move.col = c - 1;
                         convertedMove = converti(move);
                         cout << "[" << i << ", " << c << "]  *[" << i - 1 << ", " << c - 1 << "]" << endl;
-                        output << "*" << pezzi[chess[i - 1][c - 1].pezzo] << " - " << convertedMove.riga << convertedMove.col << endl;
+                        output << "*" << pezzi[chess[i - 1][c - 1].pezzo] << " - " << convertedMove.col << convertedMove.riga << endl;
                         madeMove = true;
                     }
                     if (chess[i - 1][c + 1].colore == black && i - 1 < 8 && i - 1 >= 0 && c + 1 < 8 && c + 1 >= 0) {
@@ -124,7 +124,7 @@ int main() {
                         move.col = c + 1;
                         convertedMove = converti(move);
                         cout << "[" << i << ", " << c << "]  *[" << i - 1 << ", " << c + 1 << "]" << endl;
-                        output << "*" << pezzi[chess[i + 1][c + 1].pezzo] << " - " << convertedMove.riga << convertedMove.col << endl;
+                        output << "*" << pezzi[chess[i + 1][c + 1].pezzo] << " - " << convertedMove.col << convertedMove.riga << endl;
                         madeMove = true;
                     }
                     if (chess[i - 1][c].colore == noColor && i - 1 >= 0 && i - 1 < 8) {
@@ -132,7 +132,7 @@ int main() {
                         move.col = c;
                         convertedMove = converti(move);
                         cout << "[" << i << ", " << c << "]  [" << i - 1 << ", " << c << "]" << endl;
-                        output << convertedMove.riga << convertedMove.col << endl;
+                        output << convertedMove.col << convertedMove.riga << endl;
                         madeMove = true;
                     }
                     break;
@@ -174,7 +174,7 @@ int main() {
                                 move.col = pieceColumn + columnIncrement;
                                 convertedMove = converti(move);
                                 cout << "[" << i << ", " << c << "]  *[" << pieceRow + rowIncrement << ", " << pieceColumn + columnIncrement << "]" << endl;
-                                output << "*" << pezzi[chess[pieceRow + rowIncrement][pieceColumn + columnIncrement].pezzo] << " - " << convertedMove.riga << convertedMove.col << endl;
+                                output << "*" << pezzi[chess[pieceRow + rowIncrement][pieceColumn + columnIncrement].pezzo] << " - " << convertedMove.col << convertedMove.riga << endl;
                                 madeMove = true;
                             }
                             indexChange(rowIncrement, columnIncrement, chess[i][c].pezzo, control);
@@ -188,7 +188,7 @@ int main() {
                             move.col = pieceColumn;
                             convertedMove = converti(move);
                             cout << "[" << i << ", " << c << "]  [" << pieceRow << ", " << pieceColumn << "]" << endl;
-                            output << convertedMove.riga << convertedMove.col << endl;
+                            output << convertedMove.col << convertedMove.riga << endl;
                             madeMove = true;
                             if (chess[i][c].pezzo == king || chess[i][c].pezzo == knight)
                                 indexChange(rowIncrement, columnIncrement, chess[i][c].pezzo, control);
@@ -203,14 +203,14 @@ int main() {
             }
         }
     }
-    for (int i = 8; i >= 0; i--) { // Questa parte è uguale alla precedente, ma procede dall'alto verso il basso e verifica solo i pezzi neri
+    for (int i = 0; i < 8; i++) { // Questa parte è uguale alla precedente, ma procede dall'alto verso il basso e verifica solo i pezzi neri
         for (int c = 8; c >= 0; c--) {
             current.riga = i;
             current.col = c;
             madeMove = false;
             convertedCurrent = converti(current);
             if (chess[i][c].colore == black) {
-                output << pezzi[chess[i][c].pezzo] << " - " << colori[chess[i][c].colore] << " - " << convertedCurrent.riga << convertedCurrent.col << endl;
+                output << pezzi[chess[i][c].pezzo] << " - " << colori[chess[i][c].colore] << " - " << convertedCurrent.col << convertedCurrent.riga << endl;
                 switch (chess[i][c].pezzo) {
                 case noPiece:
                 case pawn:
@@ -219,7 +219,7 @@ int main() {
                         move.col = c - 1;
                         convertedMove = converti(move);
                         cout << "[" << i << ", " << c << "]  *[" << i + 1 << ", " << c - 1 << "]" << endl;
-                        output << "*" << pezzi[chess[i + 1][c - 1].pezzo] << " - " << convertedMove.riga << convertedMove.col << endl;
+                        output << "*" << pezzi[chess[i + 1][c - 1].pezzo] << " - " << convertedMove.col << convertedMove.riga << endl;
                         madeMove = true;
                     }
                     if (chess[i + 1][c + 1].colore == white && i + 1 < 8 && i + 1 >= 0 && c + 1 < 8 && c + 1 >= 0) {
@@ -227,7 +227,7 @@ int main() {
                         move.col = c + 1;
                         convertedMove = converti(move);
                         cout << "[" << i << ", " << c << "]  *[" << i + 1 << ", " << c + 1 << "]" << endl;
-                        output << "*" << pezzi[chess[i + 1][c + 1].pezzo] << " - " << convertedMove.riga << convertedMove.col << endl;
+                        output << "*" << pezzi[chess[i + 1][c + 1].pezzo] << " - "  << convertedMove.col << convertedMove.riga << endl;
                         madeMove = true;
                     }
                     if (chess[i + 1][c].colore == noColor && i + 1 >= 0 && i + 1 < 8) {
@@ -235,7 +235,7 @@ int main() {
                         move.col = c;
                         convertedMove = converti(move);
                         cout << "[" << i << ", " << c << "]  [" << i + 1 << ", " << c << "]" << endl;
-                        output << convertedMove.riga << convertedMove.col << endl;
+                        output  << convertedMove.col << convertedMove.riga << endl;
                         madeMove = true;
                     }
                     break;
@@ -277,7 +277,7 @@ int main() {
                                 move.col = pieceColumn + columnIncrement;
                                 convertedMove = converti(move);
                                 cout << "[" << i << ", " << c << "]  *[" << pieceRow + rowIncrement << ", " << pieceColumn + columnIncrement << "]" << endl;
-                                output << "*" << pezzi[chess[pieceRow + rowIncrement][pieceColumn + columnIncrement].pezzo] << " - " << convertedMove.riga << convertedMove.col << endl;
+                                output << "*" << pezzi[chess[pieceRow + rowIncrement][pieceColumn + columnIncrement].pezzo] << " - " << convertedMove.col << convertedMove.riga << endl;
                                 madeMove = true;
                                 //printed = true;
                             }
@@ -292,7 +292,7 @@ int main() {
                             move.col = pieceColumn;
                             convertedMove = converti(move);
                             cout << "[" << i << ", " << c << "]  [" << pieceRow << ", " << pieceColumn << "]" << endl;
-                            output << convertedMove.riga << convertedMove.col << endl;
+                            output << convertedMove.col << convertedMove.riga << endl;
                             madeMove = true;
                             //printed = true;
                             if (chess[i][c].pezzo == king || chess[i][c].pezzo == knight)
